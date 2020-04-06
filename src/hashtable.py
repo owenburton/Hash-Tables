@@ -54,7 +54,7 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.storage[self._hash_mod(key)] = LinkedPair(key, value)
 
 
 
@@ -66,7 +66,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        if not self.storage[self._hash_mod(key)]:
+            print("Key not found") 
+            return
+        # ask if need except
+        self.storage[self._hash_mod(key)] = None
 
 
     def retrieve(self, key):
@@ -77,7 +81,10 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        try:
+            return self.storage[self._hash_mod(key)].value
+        except AttributeError:
+            return None
 
 
     def resize(self):
@@ -87,7 +94,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+        for i in self.storage:
+            try:
+                new_storage[self._hash_mod(i.key)] = i
+            except AttributeError:
+                continue
+        self.storage = new_storage
+
 
 
 
